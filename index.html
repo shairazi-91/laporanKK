@@ -3,277 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Koku AI Pro - SMKDPK</title>
+    <title>Laporan Koku AI - SMKDPK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
-        }
-      }
-    </script>
-
     <style>
         :root { --neon-blue: #00f2ff; }
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); font-family: 'Inter', sans-serif; color: #e2e8f0; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); font-family: 'Inter', sans-serif; color: #e2e8f0; min-height: 100vh; }
         .futuristic-header { font-family: 'Orbitron', sans-serif; letter-spacing: 4px; text-shadow: 0 0 15px rgba(0, 242, 255, 0.6); }
         .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; }
-        .cyber-input { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(0, 242, 255, 0.3); color: white; transition: all 0.3s ease; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; }
+        .cyber-input { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(0, 242, 255, 0.3); color: white; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; }
         .cyber-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 242, 255, 0.4); outline: none; }
-        
-        /* PDF Paper Style */
-        .paper-page { width: 210mm; min-height: 297mm; padding: 15mm 20mm; margin: 30px auto; background: white; color: black; box-shadow: 0 0 40px rgba(0,0,0,0.5); position: relative; }
+        .paper-page { width: 210mm; min-height: 297mm; padding: 15mm 20mm; margin: 30px auto; background: white; color: black; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
         .pdf-table { width: 100%; border: 1px solid black; border-collapse: collapse; font-size: 11px; }
         .pdf-table td { border: 1px solid black; padding: 6px; vertical-align: top; }
-        .bg-gray-label { background-color: #f3f4f6; font-weight: 600; width: 30%; }
-        
         @media print { .no-print { display: none !important; } }
-        .ai-glow { animation: glow 2s infinite; }
-        @keyframes glow { 0%, 100% { box-shadow: 0 0 5px #a855f7; } 50% { box-shadow: 0 0 20px #a855f7; } }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <!-- INPUT PANEL (FUTURISTIC) -->
-    <header class="text-center mb-6 no-print">
-        <h1 class="futuristic-header text-3xl font-bold text-cyan-400">LAPORAN KOKURIKULUM</h1>
-        <p class="text-cyan-100/60 text-xs tracking-widest uppercase">AI Digital System @2026</p>
-    </header>
+    <div class="p-4 md:p-8 no-print">
+        <header class="text-center mb-6">
+            <h1 class="futuristic-header text-3xl font-bold text-cyan-400">LAPORAN KOKURIKULUM</h1>
+            <p class="text-cyan-100/60 text-xs tracking-widest uppercase italic mt-2">AI Smart System @2026 created by cikgu shairazi</p>
+        </header>
 
-    <div class="max-w-6xl mx-auto glass-card p-6 mb-10 no-print">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            <!-- Bahagian MS 1 -->
-            <div class="space-y-4">
-                <h2 class="text-cyan-400 font-bold text-sm border-l-4 border-cyan-400 pl-2">MAKLUMAT PERJUMPAAN</h2>
-                <div class="p-3 border border-yellow-500/30 rounded bg-yellow-500/5 mb-4">
-                    <input type="password" id="api_key" placeholder="Masukkan Gemini API Key..." class="cyber-input !p-2 !text-xs">
+        <div class="max-w-6xl mx-auto glass-card p-6 mb-10 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- MS 1 INPUT -->
+                <div class="space-y-4">
+                    <h2 class="text-cyan-400 font-bold text-sm border-l-4 border-cyan-400 pl-2 uppercase">Bahagian 1: Perjumpaan</h2>
+                    <div class="p-3 border border-yellow-500/30 rounded bg-yellow-500/10">
+                        <label class="text-[10px] text-yellow-500 font-bold uppercase block mb-1">Google Gemini API Key</label>
+                        <input type="password" id="api_key" placeholder="Paste API Key sini..." class="cyber-input !p-2">
+                    </div>
+                    <input type="text" id="in_nama" placeholder="Nama Pasukan/Kelab" class="cyber-input">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="in_bil" placeholder="Bil Perjumpaan" class="cyber-input">
+                        <input type="text" id="in_tarikh" placeholder="Tarikh/Hari" class="cyber-input">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="in_masa" placeholder="Masa" class="cyber-input">
+                        <input type="text" id="in_tempat" placeholder="Tempat" class="cyber-input">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="in_hadir_m" placeholder="Hadir Murid" class="cyber-input">
+                        <input type="text" id="in_hadir_g" placeholder="Hadir Guru" class="cyber-input">
+                    </div>
+                    <textarea id="in_aktiviti" placeholder="Tulis aktiviti utama yang dijalankan..." class="cyber-input h-32"></textarea>
+                    
+                    <button id="btn-ai" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg font-bold text-white hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2">
+                        <span>✨ JANA MS 2 MENGGUNAKAN AI</span>
+                    </button>
+                    <p id="ai-loading" class="hidden text-center text-xs text-purple-400 animate-pulse font-bold uppercase">Sistem AI sedang menganalisis aktiviti anda...</p>
                 </div>
-                
-                <input type="text" id="in_nama" placeholder="Nama Pasukan / Kelab / Sukan" class="cyber-input">
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="in_bil" placeholder="Bilangan Perjumpaan" class="cyber-input">
-                    <input type="text" id="in_tarikh" placeholder="Tarikh / Hari" class="cyber-input">
+
+                <!-- MS 2 INPUT -->
+                <div class="space-y-4">
+                    <h2 class="text-indigo-400 font-bold text-sm border-l-4 border-indigo-400 pl-2 uppercase">Bahagian 2: Pemantauan (Auto)</h2>
+                    <input type="text" id="in_kbat" placeholder="Ciri KBAT" class="cyber-input">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="in_sivik_nilai" placeholder="Sivik: Nilai Teras" class="cyber-input">
+                        <input type="text" id="in_sivik_sub" placeholder="Sivik: Sub Nilai" class="cyber-input">
+                    </div>
+                    <textarea id="in_sivik_akt" placeholder="Aktiviti Sivik" class="cyber-input h-16"></textarea>
+                    <input type="text" id="in_pikebm_tajuk" placeholder="PIKeBM: Tajuk" class="cyber-input">
+                    <textarea id="in_pikebm_akt" placeholder="PIKeBM: Aktiviti" class="cyber-input h-16"></textarea>
+                    <textarea id="in_refleksi" placeholder="Refleksi (Kekuatan/Penambahbaikan)" class="cyber-input h-20"></textarea>
+                    <input type="text" id="in_penyedia" placeholder="Nama Setiausaha (Penyedia)" class="cyber-input">
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="in_masa" placeholder="Masa" class="cyber-input">
-                    <input type="text" id="in_tempat" placeholder="Tempat" class="cyber-input">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="in_hadir_m" placeholder="Kehadiran Murid" class="cyber-input">
-                    <input type="text" id="in_hadir_g" placeholder="Kehadiran Guru" class="cyber-input">
-                </div>
-                <textarea id="in_aktiviti" placeholder="Tulis Butiran Aktiviti di sini..." class="cyber-input h-32"></textarea>
-                
-                <button id="btn-ai" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 p-3 rounded font-bold text-sm ai-glow hover:scale-[1.02] transition">
-                    ✨ JANA CADANGAN AI (MS 2)
-                </button>
-                <div id="ai-loading" class="hidden text-center text-[10px] text-purple-400 animate-pulse uppercase">AI sedang memproses maklumat...</div>
             </div>
-
-            <!-- Bahagian MS 2 -->
-            <div class="space-y-4">
-                <h2 class="text-purple-400 font-bold text-sm border-l-4 border-purple-400 pl-2">PEMANTAUAN & REFLEKSI</h2>
-                <input type="text" id="in_kbat" placeholder="Ciri KBAT" class="cyber-input">
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="in_sivik_nilai" placeholder="Sivik: Nilai Teras" class="cyber-input">
-                    <input type="text" id="in_sivik_sub" placeholder="Sivik: Sub Nilai" class="cyber-input">
-                </div>
-                <textarea id="in_sivik_akt" placeholder="Aktiviti Sivik" class="cyber-input h-16 text-xs"></textarea>
-                <input type="text" id="in_pikebm_tajuk" placeholder="Tajuk PIKeBM" class="cyber-input">
-                <textarea id="in_pikebm_akt" placeholder="Aktiviti PIKeBM" class="cyber-input h-16 text-xs"></textarea>
-                <textarea id="in_refleksi" placeholder="Refleksi (Kekuatan/Kelemahan/Penambahbaikan)" class="cyber-input h-20"></textarea>
-                <input type="text" id="in_penyedia" placeholder="Nama Setiausaha" class="cyber-input">
-            </div>
+            <button onclick="window.generatePDF()" class="mt-8 w-full bg-cyan-500 text-black font-extrabold py-4 rounded-lg uppercase tracking-widest hover:bg-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]">MUAT TURUN PDF (2 MUKA SURAT)</button>
         </div>
-
-        <button onclick="generatePDF()" class="mt-6 w-full bg-cyan-500 text-black font-bold py-3 rounded uppercase tracking-widest hover:bg-cyan-400 transition">
-            MUAT TURUN PDF (2 MUKA SURAT)
-        </button>
     </div>
 
-    <!-- PREVIEW AREA -->
+    <!-- PREVIEW AREA (PDF) -->
     <div id="report-content">
         <!-- PAGE 1 -->
         <div class="paper-page mx-auto">
             <div class="text-center mb-6">
                 <h2 class="font-bold text-base uppercase">SMK DATUK PATINGGI KEDIT, BETONG</h2>
-                <h3 class="font-bold text-sm underline">Laporan Aktiviti Perjumpaan Kokurikulum</h3>
-                <p class="text-[10px]">Pasukan Badan Beruniform/ Kelab dan Persatuan/ Sukan dan Permainan</p>
+                <h3 class="font-bold text-sm underline uppercase">Laporan Aktiviti Perjumpaan Kokurikulum</h3>
             </div>
-
             <table class="pdf-table">
-                <tr><td class="bg-gray-label">Nama Pasukan/ Kelab/ Sukan</td><td id="out_nama"></td></tr>
-                <tr><td class="bg-gray-label">Bilangan Perjumpaan</td><td id="out_bil"></td></tr>
-                <tr><td class="bg-gray-label">Tarikh / Hari</td><td id="out_tarikh"></td></tr>
-                <tr><td class="bg-gray-label">Masa</td><td id="out_masa"></td></tr>
-                <tr><td class="bg-gray-label">Tempat</td><td id="out_tempat"></td></tr>
-                <tr><td class="bg-gray-label">Kehadiran Murid</td><td id="out_hadir_m"></td></tr>
-                <tr><td class="bg-gray-label">Kehadiran Guru</td><td id="out_hadir_g"></td></tr>
-                <tr><td colspan="2" class="font-bold bg-gray-100 p-1">Butiran Aktiviti</td></tr>
-                <tr><td colspan="2" class="h-[450px] align-top whitespace-pre-wrap leading-relaxed" id="out_aktiviti"></td></tr>
+                <tr><td style="background:#f3f4f6; width:35%; font-weight:bold">Nama Pasukan/Kelab</td><td id="out_nama"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Bilangan Perjumpaan</td><td id="out_bil"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Tarikh / Hari</td><td id="out_tarikh"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Masa</td><td id="out_masa"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Tempat</td><td id="out_tempat"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Kehadiran Murid</td><td id="out_hadir_m"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Kehadiran Guru</td><td id="out_hadir_g"></td></tr>
+                <tr><td colspan="2" style="background:#f3f4f6; font-weight:bold">Butiran Aktiviti</td></tr>
+                <tr><td colspan="2" class="h-[480px] align-top whitespace-pre-wrap leading-relaxed p-4" id="out_aktiviti"></td></tr>
             </table>
-
-            <div class="grid grid-cols-2 mt-10 gap-20">
-                <div class="text-center">
-                    <p class="font-bold text-[10px]">Disediakan Oleh:</p>
-                    <div class="mt-12 border-b border-black w-40 mx-auto"></div>
-                    <p class="text-[10px] font-bold mt-1 uppercase" id="out_penyedia1"></p>
-                    <p class="text-[9px]">(Setiausaha Kelab dan Persatuan)</p>
-                </div>
-                <div class="text-center">
-                    <p class="font-bold text-[10px]">Disemak Oleh:</p>
-                    <div class="mt-12 border-b border-black w-40 mx-auto"></div>
-                    <p class="text-[9px] mt-1">(Guru Penasihat Kelab dan Persatuan)</p>
-                </div>
-            </div>
-            <p class="italic text-[8px] mt-4">*Diisi oleh setiausaha kelab/persatuan dan disemak oleh guru penasihat.</p>
         </div>
-
         <!-- PAGE 2 -->
         <div class="paper-page mx-auto">
-            <div class="text-center mb-4"><h3 class="font-bold text-sm underline uppercase">Laporan Pemantauan Guru Penasihat</h3></div>
+            <h3 class="text-center font-bold text-sm underline uppercase mb-6">Laporan Pemantauan Guru Penasihat</h3>
             <table class="pdf-table">
-                <tr><td class="bg-gray-label italic">Ciri KBAT Dalam Kokurikulum</td><td class="h-16" id="out_kbat"></td></tr>
-                <tr>
-                    <td class="bg-gray-label italic">Amalan Pendidikan Sivik</td>
-                    <td class="p-0">
-                        <table class="w-full border-none" style="border:none">
-                            <tr><td class="border-l-0 border-t-0 font-bold w-1/4">Nilai Teras</td><td class="border-t-0 border-r-0" id="out_sivik_nilai"></td></tr>
-                            <tr><td class="border-l-0 font-bold">Sub Nilai</td><td class="border-r-0" id="out_sivik_sub"></td></tr>
-                            <tr><td class="border-l-0 border-b-0 font-bold h-20">Aktiviti</td><td class="border-b-0 border-r-0 whitespace-pre-wrap" id="out_sivik_akt"></td></tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bg-gray-label italic">Sisipan Aktiviti PIKeBM</td>
-                    <td class="p-0">
-                        <table class="w-full border-none" style="border:none">
-                            <tr><td class="border-l-0 border-t-0 font-bold w-1/4">Tajuk :</td><td class="border-t-0 border-r-0" id="out_pikebm_tajuk"></td></tr>
-                            <tr><td class="border-l-0 border-b-0 font-bold h-20">Aktiviti:</td><td class="border-b-0 border-r-0 whitespace-pre-wrap" id="out_pikebm_akt"></td></tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr><td class="bg-gray-label italic">Refleksi (Kekuatan/Kelemahan/Penambahbaikan)</td><td class="h-40 whitespace-pre-wrap" id="out_refleksi"></td></tr>
+                <tr><td style="background:#f3f4f6; width:35%; font-weight:bold">Ciri KBAT Dalam Koku</td><td id="out_kbat" class="h-12"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Nilai Teras Sivik</td><td id="out_sivik_nilai"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Sub Nilai Sivik</td><td id="out_sivik_sub"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti Sivik</td><td id="out_sivik_akt" class="h-24 whitespace-pre-wrap"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Tajuk PIKeBM</td><td id="out_pikebm_tajuk"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti PIKeBM</td><td id="out_pikebm_akt" class="h-24 whitespace-pre-wrap"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Refleksi (Kekuatan/P.Baikan)</td><td id="out_refleksi" class="h-40 whitespace-pre-wrap"></td></tr>
             </table>
-
-            <div class="mt-10 space-y-10">
+            <div class="mt-12 space-y-12">
                 <div>
-                    <p class="font-bold text-[10px]">Disediakan Oleh:</p>
-                    <div class="mt-10 border-b border-dotted border-black w-60"></div>
-                    <p id="out_penyedia2" class="text-[10px] mt-1 uppercase font-bold"></p>
-                </div>
-                <div>
-                    <p class="font-bold text-[10px]">Disemak Oleh:</p>
-                    <div class="mt-8">
-                        <p class="font-bold text-xs">................................................................</p>
-                        <p class="font-bold text-xs uppercase">(ENCIK WINSTON CHURCHILL JELINI)</p>
-                        <p class="text-[9px]">Penolong Kanan Kokurikulum, SMK Datuk Patinggi Kedit, Betong</p>
-                    </div>
-                </div>
-                <div>
-                    <p class="font-bold text-[10px]">Disahkan Oleh:</p>
-                    <div class="mt-8">
-                        <p class="font-bold text-xs">................................................................</p>
-                        <p class="font-bold text-xs uppercase">(ALEXANDA ANAK AJON TINGGI)</p>
-                        <p class="text-[9px]">Pengetua, SMK Datuk Patinggi Kedit, Betong</p>
-                    </div>
+                    <p class="font-bold text-[10px] uppercase underline">Disediakan Oleh:</p>
+                    <div class="mt-12 border-b border-black w-56"></div>
+                    <p id="out_penyedia" class="text-[10px] font-bold uppercase mt-1"></p>
+                    <p class="text-[10px]">(Setiausaha Kelab/Persatuan)</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- WATERMARK -->
-    <footer class="text-center mt-10 mb-20 no-print">
-        <p class="text-cyan-400 font-bold italic text-sm">@2026 created by cikgu shairazi</p>
-    </footer>
-
     <script type="module">
-        import { GoogleGenerativeAI } from "@google/generative-ai";
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-        // Fungsi Sync data input ke preview
         function sync() {
-            const map = {
-                'nama': 'out_nama', 'bil': 'out_bil', 'tarikh': 'out_tarikh', 'masa': 'out_masa',
-                'tempat': 'out_tempat', 'hadir_m': 'out_hadir_m', 'hadir_g': 'out_hadir_g',
-                'aktiviti': 'out_aktiviti', 'kbat': 'out_kbat', 'sivik_nilai': 'out_sivik_nilai',
-                'sivik_sub': 'out_sivik_sub', 'sivik_akt': 'out_sivik_akt',
-                'pikebm_tajuk': 'out_pikebm_tajuk', 'pikebm_akt': 'out_pikebm_akt',
-                'refleksi': 'out_refleksi'
-            };
-            
-            for (let key in map) {
-                const val = document.getElementById('in_' + key).value;
-                document.getElementById(map[key]).innerText = val;
-            }
-            // Nama penyedia di dua muka surat
-            const penyedia = document.getElementById('in_penyedia').value;
-            document.getElementById('out_penyedia1').innerText = penyedia;
-            document.getElementById('out_penyedia2').innerText = penyedia;
+            const ids = ['nama','bil','tarikh','masa','tempat','hadir_m','hadir_g','aktiviti','kbat','sivik_nilai','sivik_sub','sivik_akt','pikebm_tajuk','pikebm_akt','refleksi','penyedia'];
+            ids.forEach(id => {
+                const val = document.getElementById('in_'+id).value;
+                const out = document.getElementById('out_'+id);
+                if(out) out.innerText = val;
+            });
         }
-
         document.querySelectorAll('.cyber-input').forEach(el => el.addEventListener('input', sync));
 
-        // LOGIK AI
-        document.getElementById('btn-ai').addEventListener('click', async () => {
-            const apiKey = document.getElementById('api_key').value;
-            const aktiviti = document.getElementById('in_aktiviti').value;
-
-            if (!apiKey) return alert("Sila masukkan API KEY Gemini!");
-            if (!aktiviti) return alert("Sila isi Butiran Aktiviti terlebih dahulu!");
-
+        document.getElementById('btn-ai').onclick = async () => {
+            const key = document.getElementById('api_key').value;
+            const akt = document.getElementById('in_aktiviti').value;
+            if(!key) return alert("Sila masukkan API KEY Gemini!");
+            if(!akt) return alert("Sila tulis butiran aktiviti terlebih dahulu!");
+            
             const loading = document.getElementById('ai-loading');
             loading.classList.remove('hidden');
 
             try {
-                const genAI = new GoogleGenerativeAI(apiKey);
-                const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
-                const prompt = `Berdasarkan aktiviti kokurikulum ini: "${aktiviti}". Berikan cadangan untuk Laporan Kokurikulum Malaysia dalam JSON sahaja. 
-                {
-                    "kbat": "ciri kbat", 
-                    "sivik_nilai": "nilai teras", 
-                    "sivik_sub": "sub nilai", 
-                    "sivik_akt": "aktiviti sivik",
-                    "pikebm_tajuk": "tajuk pikebm",
-                    "pikebm_akt": "aktiviti pikebm",
-                    "refleksi": "huraian refleksi merangkumi kekuatan dan penambahbaikan"
-                }`;
-
+                const genAI = new GoogleGenerativeAI(key);
+                // Guna model terbaru 1.5-flash (lebih stabil)
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                
+                const prompt = `Berikan cadangan elemen kokurikulum dalam JSON sahaja (TANPA teks lain) untuk aktiviti: "${akt}". Format: {"kbat": "...", "sivik_nilai": "...", "sivik_sub": "...", "sivik_akt": "...", "pikebm_tajuk": "...", "pikebm_akt": "...", "refleksi": "..."}`;
+                
                 const result = await model.generateContent(prompt);
                 const response = await result.response;
-                const text = response.text().replace(/```json/g, '').replace(/```/g, '').trim();
+                let text = response.text();
+                
+                // Pembersihan JSON yang lebih kuat
+                text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+                
                 const data = JSON.parse(text);
-
-                document.getElementById('in_kbat').value = data.kbat;
-                document.getElementById('in_sivik_nilai').value = data.sivik_nilai;
-                document.getElementById('in_sivik_sub').value = data.sivik_sub;
-                document.getElementById('in_sivik_akt').value = data.sivik_akt;
-                document.getElementById('in_pikebm_tajuk').value = data.pikebm_tajuk;
-                document.getElementById('in_pikebm_akt').value = data.pikebm_akt;
-                document.getElementById('in_refleksi').value = data.refleksi;
-
+                
+                document.getElementById('in_kbat').value = data.kbat || "";
+                document.getElementById('in_sivik_nilai').value = data.sivik_nilai || "";
+                document.getElementById('in_sivik_sub').value = data.sivik_sub || "";
+                document.getElementById('in_sivik_akt').value = data.sivik_akt || "";
+                document.getElementById('in_pikebm_tajuk').value = data.pikebm_tajuk || "";
+                document.getElementById('in_pikebm_akt').value = data.pikebm_akt || "";
+                document.getElementById('in_refleksi').value = data.refleksi || "";
+                
                 sync();
-            } catch (e) {
-                alert("Ralat AI: " + e.message);
-            } finally {
-                loading.classList.add('hidden');
+                alert("Berjaya! Maklumat MS 2 telah diisi oleh AI.");
+            } catch (e) { 
+                console.error(e);
+                alert("RALAT AI: " + e.message + "\n\nPastikan API Key betul dan anda mempunyai sambungan internet."); 
+            } finally { 
+                loading.classList.add('hidden'); 
             }
-        });
+        };
 
-        window.generatePDF = function() {
-            const element = document.getElementById('report-content');
-            html2pdf().set({
+        window.generatePDF = () => {
+            const el = document.getElementById('report-content');
+            const opt = {
                 margin: 0,
-                filename: 'Laporan_Koku_SMKDPK.pdf',
+                filename: 'Laporan_Kokurikulum_SMKDPK.pdf',
                 image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).from(element).save();
-        }
+            };
+            html2pdf().set(opt).from(el).save();
+        };
     </script>
 </body>
 </html>
