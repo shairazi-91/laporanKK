@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
     <style>
         :root { --neon-blue: #00f2ff; }
         body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); font-family: 'Inter', sans-serif; color: #e2e8f0; min-height: 100vh; }
@@ -31,12 +30,12 @@
 
         <div class="max-w-6xl mx-auto glass-card p-6 mb-10 shadow-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- MS 1 INPUT -->
+                <!-- INPUT MS 1 -->
                 <div class="space-y-4">
                     <h2 class="text-cyan-400 font-bold text-sm border-l-4 border-cyan-400 pl-2 uppercase">Bahagian 1: Perjumpaan</h2>
                     <div class="p-3 border border-yellow-500/30 rounded bg-yellow-500/10">
-                        <label class="text-[10px] text-yellow-500 font-bold uppercase block mb-1">Google Gemini API Key</label>
-                        <input type="password" id="api_key" placeholder="Paste API Key sini..." class="cyber-input !p-2">
+                        <label class="text-[10px] text-yellow-500 font-bold uppercase block mb-1">API Key (Gemini AI Studio)</label>
+                        <input type="password" id="api_key" placeholder="Masukkan API Key anda di sini..." class="cyber-input !p-2">
                     </div>
                     <input type="text" id="in_nama" placeholder="Nama Pasukan/Kelab" class="cyber-input">
                     <div class="grid grid-cols-2 gap-2">
@@ -51,18 +50,18 @@
                         <input type="text" id="in_hadir_m" placeholder="Hadir Murid" class="cyber-input">
                         <input type="text" id="in_hadir_g" placeholder="Hadir Guru" class="cyber-input">
                     </div>
-                    <textarea id="in_aktiviti" placeholder="Tulis aktiviti utama yang dijalankan..." class="cyber-input h-32"></textarea>
+                    <textarea id="in_aktiviti" placeholder="Tulis butiran aktiviti utama..." class="cyber-input h-32"></textarea>
                     
                     <button id="btn-ai" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg font-bold text-white hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2">
-                        <span>✨ JANA MS 2 MENGGUNAKAN AI</span>
+                        <span>✨ JANA ELEMEN MS 2 (AI)</span>
                     </button>
-                    <p id="ai-loading" class="hidden text-center text-xs text-purple-400 animate-pulse font-bold uppercase">Sistem AI sedang menganalisis aktiviti anda...</p>
+                    <p id="ai-loading" class="hidden text-center text-xs text-purple-400 animate-pulse font-bold uppercase">Menghubungi Pelayan AI (Laluan v1 Stable)...</p>
                 </div>
 
-                <!-- MS 2 INPUT -->
+                <!-- INPUT MS 2 -->
                 <div class="space-y-4">
-                    <h2 class="text-indigo-400 font-bold text-sm border-l-4 border-indigo-400 pl-2 uppercase">Bahagian 2: Pemantauan (Auto)</h2>
-                    <input type="text" id="in_kbat" placeholder="Ciri KBAT" class="cyber-input">
+                    <h2 class="text-indigo-400 font-bold text-sm border-l-4 border-indigo-400 pl-2 uppercase">Bahagian 2: Elemen KPM</h2>
+                    <input type="text" id="in_kbat" placeholder="KBAT" class="cyber-input">
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="in_sivik_nilai" placeholder="Sivik: Nilai Teras" class="cyber-input">
                         <input type="text" id="in_sivik_sub" placeholder="Sivik: Sub Nilai" class="cyber-input">
@@ -70,15 +69,15 @@
                     <textarea id="in_sivik_akt" placeholder="Aktiviti Sivik" class="cyber-input h-16"></textarea>
                     <input type="text" id="in_pikebm_tajuk" placeholder="PIKeBM: Tajuk" class="cyber-input">
                     <textarea id="in_pikebm_akt" placeholder="PIKeBM: Aktiviti" class="cyber-input h-16"></textarea>
-                    <textarea id="in_refleksi" placeholder="Refleksi (Kekuatan/Penambahbaikan)" class="cyber-input h-20"></textarea>
-                    <input type="text" id="in_penyedia" placeholder="Nama Setiausaha (Penyedia)" class="cyber-input">
+                    <textarea id="in_refleksi" placeholder="Refleksi" class="cyber-input h-20"></textarea>
+                    <input type="text" id="in_penyedia" placeholder="Nama Setiausaha" class="cyber-input">
                 </div>
             </div>
-            <button onclick="window.generatePDF()" class="mt-8 w-full bg-cyan-500 text-black font-extrabold py-4 rounded-lg uppercase tracking-widest hover:bg-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]">MUAT TURUN PDF (2 MUKA SURAT)</button>
+            <button onclick="window.generatePDF()" class="mt-8 w-full bg-cyan-500 text-black font-extrabold py-4 rounded-lg uppercase hover:bg-cyan-400">MUAT TURUN PDF</button>
         </div>
     </div>
 
-    <!-- PREVIEW AREA (PDF) -->
+    <!-- PREVIEW AREA -->
     <div id="report-content">
         <!-- PAGE 1 -->
         <div class="paper-page mx-auto">
@@ -105,25 +104,22 @@
                 <tr><td style="background:#f3f4f6; width:35%; font-weight:bold">Ciri KBAT Dalam Koku</td><td id="out_kbat" class="h-12"></td></tr>
                 <tr><td style="background:#f3f4f6; font-weight:bold">Nilai Teras Sivik</td><td id="out_sivik_nilai"></td></tr>
                 <tr><td style="background:#f3f4f6; font-weight:bold">Sub Nilai Sivik</td><td id="out_sivik_sub"></td></tr>
-                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti Sivik</td><td id="out_sivik_akt" class="h-24 whitespace-pre-wrap"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti Sivik</td><td id="out_sivik_akt" class="h-24"></td></tr>
                 <tr><td style="background:#f3f4f6; font-weight:bold">Tajuk PIKeBM</td><td id="out_pikebm_tajuk"></td></tr>
-                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti PIKeBM</td><td id="out_pikebm_akt" class="h-24 whitespace-pre-wrap"></td></tr>
-                <tr><td style="background:#f3f4f6; font-weight:bold">Refleksi (Kekuatan/P.Baikan)</td><td id="out_refleksi" class="h-40 whitespace-pre-wrap"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Aktiviti PIKeBM</td><td id="out_pikebm_akt" class="h-24"></td></tr>
+                <tr><td style="background:#f3f4f6; font-weight:bold">Refleksi</td><td id="out_refleksi" class="h-40"></td></tr>
             </table>
-            <div class="mt-12 space-y-12">
-                <div>
-                    <p class="font-bold text-[10px] uppercase underline">Disediakan Oleh:</p>
-                    <div class="mt-12 border-b border-black w-56"></div>
-                    <p id="out_penyedia" class="text-[10px] font-bold uppercase mt-1"></p>
-                    <p class="text-[10px]">(Setiausaha Kelab/Persatuan)</p>
-                </div>
+            <div class="mt-12">
+                <p class="font-bold text-[10px] uppercase underline">Disediakan Oleh:</p>
+                <div class="mt-12 border-b border-black w-56"></div>
+                <p id="out_penyedia" class="text-[10px] font-bold uppercase mt-1"></p>
+                <p class="text-[10px]">(Setiausaha)</p>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
+    <script>
+        // Fungsi Sync Preview
         function sync() {
             const ids = ['nama','bil','tarikh','masa','tempat','hadir_m','hadir_g','aktiviti','kbat','sivik_nilai','sivik_sub','sivik_akt','pikebm_tajuk','pikebm_akt','refleksi','penyedia'];
             ids.forEach(id => {
@@ -134,31 +130,42 @@
         }
         document.querySelectorAll('.cyber-input').forEach(el => el.addEventListener('input', sync));
 
+        // LOGIK BARU: DIRECT FETCH KE v1 (STABLE)
         document.getElementById('btn-ai').onclick = async () => {
             const key = document.getElementById('api_key').value;
             const akt = document.getElementById('in_aktiviti').value;
-            if(!key) return alert("Sila masukkan API KEY Gemini!");
-            if(!akt) return alert("Sila tulis butiran aktiviti terlebih dahulu!");
             
+            if(!key) return alert("Sila masukkan API KEY!");
+            if(!akt) return alert("Sila tulis aktiviti dahulu!");
+
             const loading = document.getElementById('ai-loading');
             loading.classList.remove('hidden');
 
             try {
-                const genAI = new GoogleGenerativeAI(key);
-                // Guna model terbaru 1.5-flash (lebih stabil)
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                // Gunakan laluan v1 yang stabil, bukan v1beta
+                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${key}`;
                 
-                const prompt = `Berikan cadangan elemen kokurikulum dalam JSON sahaja (TANPA teks lain) untuk aktiviti: "${akt}". Format: {"kbat": "...", "sivik_nilai": "...", "sivik_sub": "...", "sivik_akt": "...", "pikebm_tajuk": "...", "pikebm_akt": "...", "refleksi": "..."}`;
+                const prompt = `Berikan cadangan elemen kokurikulum Malaysia dalam JSON sahaja (TANPA teks markdown) untuk aktiviti: "${akt}". 
+                Wajib ada field: kbat, sivik_nilai, sivik_sub, sivik_akt, pikebm_tajuk, pikebm_akt, refleksi.`;
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.error) throw new Error(result.error.message);
+
+                let aiText = result.candidates[0].content.parts[0].text;
+                // Cuci teks AI jika ada simbol ```
+                aiText = aiText.replace(/```json/g, "").replace(/```/g, "").trim();
                 
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                let text = response.text();
-                
-                // Pembersihan JSON yang lebih kuat
-                text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-                
-                const data = JSON.parse(text);
-                
+                const data = JSON.parse(aiText);
+
                 document.getElementById('in_kbat').value = data.kbat || "";
                 document.getElementById('in_sivik_nilai').value = data.sivik_nilai || "";
                 document.getElementById('in_sivik_sub').value = data.sivik_sub || "";
@@ -166,27 +173,25 @@
                 document.getElementById('in_pikebm_tajuk').value = data.pikebm_tajuk || "";
                 document.getElementById('in_pikebm_akt').value = data.pikebm_akt || "";
                 document.getElementById('in_refleksi').value = data.refleksi || "";
-                
+
                 sync();
-                alert("Berjaya! Maklumat MS 2 telah diisi oleh AI.");
-            } catch (e) { 
+                alert("AI Berjaya mengisi MS 2!");
+            } catch (e) {
                 console.error(e);
-                alert("RALAT AI: " + e.message + "\n\nPastikan API Key betul dan anda mempunyai sambungan internet."); 
-            } finally { 
-                loading.classList.add('hidden'); 
+                alert("Ralat: " + e.message);
+            } finally {
+                loading.classList.add('hidden');
             }
         };
 
         window.generatePDF = () => {
             const el = document.getElementById('report-content');
-            const opt = {
+            html2pdf().set({
                 margin: 0,
-                filename: 'Laporan_Kokurikulum_SMKDPK.pdf',
-                image: { type: 'jpeg', quality: 1.0 },
+                filename: 'Laporan_SMKDPK.pdf',
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(el).save();
+                jsPDF: { unit: 'mm', format: 'a4' }
+            }).from(el).save();
         };
     </script>
 </body>
